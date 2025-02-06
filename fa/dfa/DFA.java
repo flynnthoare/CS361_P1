@@ -5,6 +5,7 @@ import fa.State;
 import java.util.Set;
 
 public class DFA implements DFAInterface {
+    // NICK
     @Override
     public boolean addState(String name) {
         return false;
@@ -35,6 +36,7 @@ public class DFA implements DFAInterface {
         return null;
     }
 
+    // FLYNN
     @Override
     public State getState(String name) {
         return null;
