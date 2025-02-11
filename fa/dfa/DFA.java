@@ -16,20 +16,11 @@ public class DFA implements DFAInterface {
     private DFAState start;
     private DFAState current;
 
-    private DFAState findState(String name) {
-        for (DFAState state : states) {
-            if (state.getName().equals(name))
-                return state;
-        }
-
-        return null;
-    }
-
     // NICK
     @Override
     public boolean addState(String name) {
         // Cannot have the name of an existing state
-        if (findState(name) != null)
+        if (getState(name) != null)
             return false;
 
         // Create a new state with this name
@@ -40,7 +31,7 @@ public class DFA implements DFAInterface {
 
     @Override
     public boolean setFinal(String name) {
-        DFAState state = findState(name);
+        DFAState state = getState(name);
         // Cannot set a nonexistent state to final
         if (state == null)
             return false;
@@ -52,12 +43,17 @@ public class DFA implements DFAInterface {
 
     @Override
     public boolean setStart(String name) {
-        DFAState state = findState(name);
+        DFAState state = getState(name);
         // Cannot set a nonexistent state to start
         if (state == null)
             return false;
 
+        // Ensure no other states are marked as isStart
+        for (DFAState other : states)
+            other.setStart(false);
+
         // Set the start state and current state to this state
+        state.setStart(true);
         start = state;
         current = state;
         return true;
@@ -83,7 +79,12 @@ public class DFA implements DFAInterface {
 
     // FLYNN
     @Override
-    public State getState(String name) {
+    public DFAState getState(String name) {
+        for (DFAState state : states) {
+            if (state.getName().equals(name))
+                return state;
+        }
+
         return null;
     }
 
