@@ -16,32 +16,57 @@ public class DFA implements DFAInterface {
     private DFAState start;
     private DFAState current;
 
+    private DFAState findState(String name) {
+        for (DFAState state : states) {
+            if (state.getName().equals(name))
+                return state;
+        }
+
+        return null;
+    }
+
     // NICK
     @Override
     public boolean addState(String name) {
-        // This adds a state to the DFA with a name
-        // TODO: create a list to store the states
-        return false;
+        // Cannot have the name of an existing state
+        if (findState(name) != null)
+            return false;
+
+        // Create a new state with this name
+        DFAState state = new DFAState(name);
+        states.add(state);
+        return true;
     }
 
     @Override
     public boolean setFinal(String name) {
-        // This finds the given state and sets it to final
-        // TODO: update DFAState class to have an isFinal flag
-        return false;
+        DFAState state = findState(name);
+        // Cannot set a nonexistent state to final
+        if (state == null)
+            return false;
+
+        // Set the state to final
+        state.makeFinal();
+        return true;
     }
 
     @Override
     public boolean setStart(String name) {
-        // This finds the given state and sets it to start
-        // TODO: update start state, also setting current state by default
-        return false;
+        DFAState state = findState(name);
+        // Cannot set a nonexistent state to start
+        if (state == null)
+            return false;
+
+        // Set the start state and current state to this state
+        start = state;
+        current = state;
+        return true;
     }
 
     @Override
     public void addSigma(char symbol) {
-        // This adds the symbol to the alphabet
-        // TODO: create a character list to store the alphabet
+        // Add the symbol to sigma
+        sigma.add(symbol);
     }
 
     @Override
@@ -53,7 +78,6 @@ public class DFA implements DFAInterface {
 
     @Override
     public Set<Character> getSigma() {
-        // This returns the alphabet
         return sigma;
     }
 
