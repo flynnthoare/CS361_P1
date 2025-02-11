@@ -286,9 +286,6 @@ private DFA dfa3() {
 	assertTrue(dfa.addTransition("C", "F", '1'));
 	assertTrue(dfa.addTransition("C", "G", '2'));
 	
-	assertTrue(dfa.addTransition("C", "F", '1'));
-	assertTrue(dfa.addTransition("C", "G", '2'));
-	
 	assertTrue(dfa.addTransition("D", "D", '1'));
 	assertTrue(dfa.addTransition("D", "E", '2'));
 	
