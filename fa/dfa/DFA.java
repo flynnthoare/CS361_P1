@@ -10,7 +10,7 @@ public class DFA implements DFAInterface {
     // sigma includes the total alphabet
     private Set<Character> sigma = new HashSet<>();
     // transitionTable maps from a state name to the list of state names that occur depending on the transition
-    private Map<String, String> transitionTable = new HashMap<>();
+    private Map<String, HashMap<Character, String>> transitionTable = new HashMap<>();
 
     // Store current state and start state
     private DFAState start;
@@ -76,12 +76,14 @@ public class DFA implements DFAInterface {
         // start at start state
         String currentState = start.getName();
 
+        // loop through string
         for (char c : s.toCharArray()) {
-            // construct key for lookup
-            String key = currentState + "," + c;
-
+            // extra check just in case the DFA isn't set up correctly
+            if (!transitionTable.containsKey(currentState)) {
+                return false;
+            }
             // get next state from key
-            String nextState = transitionTable.get(key);
+            String nextState = transitionTable.get(currentState).get(c);
 
             // check if transition exists
             if (nextState == null) {
@@ -140,9 +142,10 @@ public class DFA implements DFAInterface {
             return false;
         }
 
-        String key = fromState + "," + onSymb;
-        transitionTable.put(key, toState);
-        
+        // add a new hashmap to transition table if fromState entry doesn't already exist
+        transitionTable.putIfAbsent(fromState, new HashMap<>());
+        // add symbol to toState transition in inned hashmap for current fromState
+        transitionTable.get(fromState).put(onSymb, toState);
         
         return true;
     }
@@ -169,17 +172,29 @@ public class DFA implements DFAInterface {
         }
 
         // copy transitions with symbol swaps
-        for (Map.Entry<String, String> transition :this.transitionTable.entrySet()) {
-            String key = transition.getKey();
-            String toState = transition.getValue();
+        for (Map.Entry<String, HashMap<Character, String>> transition :this.transitionTable.entrySet()) {
+            
+            // get current fromSate and map of transitions associated with it
+            String fromState = transition.getKey();
+            HashMap<Character, String> transitions= transition.getValue();
 
-            String[] keyParts = key.split(",");
-            String fromState = keyParts[0];
-            char symbol = keyParts[1].charAt(0);
+            // create new transition map for swap
+            HashMap<Character, String> swappedTransitions = new HashMap<>();
 
-            char newSymbol = (symbol == symb1) ? symb2 : (symbol == symb2) ? symb1: symbol;
+            for (Map.Entry<Character, String> transitionEntry : transitions.entrySet()) {
+                // extract symbol and toState for the current transition we are swapping
+                char symbol = transitionEntry.getKey();
+                String toState = transitionEntry.getValue();
 
-            swappedDFA.addTransition(fromState, toState, newSymbol);
+                // swap out symbols
+                char newSymbol = (symbol == symb1) ? symb2 : (symbol == symb2) ? symb1: symbol;
+
+                // add the transition with new symbol and same toState
+                swappedTransitions.put(newSymbol, toState);
+            }
+
+            // add the swappedTransitions inner HashMap to the outer HashMap for each outter entry
+            swappedDFA.transitionTable.put(fromState, swappedTransitions);
         }
 
         return swappedDFA;
