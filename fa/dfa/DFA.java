@@ -68,8 +68,31 @@ public class DFA implements DFAInterface {
     @Override
     public boolean accepts(String s) {
         // This tests if the string is accepted by the machine
-        // TODO: decide whether to do a recursive function or loop through the string
-        return false;
+        
+        if (start == null) {
+            return false;
+        }
+
+        // start at start state
+        String currentState = start.getName();
+
+        for (char c : s.toCharArray()) {
+            // construct key for lookup
+            String key = currentState + "," + c;
+
+            // get next state from key
+            String nextState = transitionTable.get(key);
+
+            // check if transition exists
+            if (nextState == null) {
+                return false;
+            }
+            //set next state to current and continue looping through string
+            currentState = nextState;
+        }
+
+        // return true if ending state is a final state and false if not
+        return getState(currentState).isFinal();
     }
 
     @Override
