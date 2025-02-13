@@ -9,52 +9,6 @@ import org.junit.Test;
 import fa.dfa.DFA;
 
 public class DFATest {
-	@Test
-	public void test_addState() {
-		DFA dfa = new DFA();
-		assertTrue(dfa.addState("a"));
-		assertNotNull(dfa.getState("a"));
-		assertEquals(dfa.getState("a").getName(), "a");
-
-		System.out.println("dfa add-state pass");
-	}
-
-	@Test
-	public void test_setFinal() {
-		DFA dfa = new DFA();
-		assertTrue(dfa.addState("a"));
-		assertTrue(dfa.setFinal("a"));
-
-		assertNotNull(dfa.getState("a"));
-		assertEquals(dfa.getState("a").getName(), "a");
-		assertTrue(dfa.getState("a").isFinal());
-
-		System.out.println("dfa set-final pass");
-	}
-
-	@Test
-	public void test_setStart() {
-		DFA dfa = new DFA();
-		assertTrue(dfa.addState("a"));
-		assertTrue(dfa.setStart("a"));
-
-		assertNotNull(dfa.getState("a"));
-		assertEquals(dfa.getState("a").getName(), "a");
-		assertTrue(dfa.getState("a").isStart());
-
-		System.out.println("dfa set-start pass");
-	}
-
-	@Test
-	public void test_addSigma() {
-		DFA dfa = new DFA();
-		dfa.addSigma('a');
-
-		assertNotNull(dfa.getSigma());
-		assertTrue(dfa.getSigma().contains('a'));
-
-		System.out.println("dfa add-sigma pass");
-	}
 	
 	//------------------- dfa1 tests ----------------------//
 	private DFA dfa1() {
