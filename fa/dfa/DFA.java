@@ -6,23 +6,21 @@ import java.util.*;
 
 public class DFA implements DFAInterface {
     // the states store isFinal, so contains F
-    private Set<DFAState> states;
+    private LinkedHashSet<DFAState> states;
     // sigma includes the total alphabet
-    private Set<Character> sigma;
+    private LinkedHashSet<Character> sigma;
     // transitionTable maps from a state name to the list of state names that occur depending on the transition
-    private Map<String, HashMap<Character, String>> transitionTable;
+    private Map<String, Map<Character, String>> transitionTable;
 
-    // Store current state and start state
+    // Store start state
     private DFAState start;
-    private DFAState current;
 
     public DFA() {
-        states = new HashSet<>();
-        sigma = new HashSet<>();
+        states = new LinkedHashSet<>();
+        sigma = new LinkedHashSet<>();
         transitionTable = new HashMap<>();
 
         start = null;
-        current = null;
     }
 
     // NICK
@@ -61,10 +59,9 @@ public class DFA implements DFAInterface {
         for (DFAState other : states)
             other.setStart(false);
 
-        // Set the start state and current state to this state
+        // Set the start state to this state
         state.setStart(true);
         start = state;
-        current = state;
         return true;
     }
 
@@ -181,11 +178,11 @@ public class DFA implements DFAInterface {
         }
 
         // copy transitions with symbol swaps
-        for (Map.Entry<String, HashMap<Character, String>> transition :this.transitionTable.entrySet()) {
+        for (Map.Entry<String, Map<Character, String>> transition : this.transitionTable.entrySet()) {
             
-            // get current fromSate and map of transitions associated with it
+            // get current fromState and map of transitions associated with it
             String fromState = transition.getKey();
-            HashMap<Character, String> transitions= transition.getValue();
+            Map<Character, String> transitions= transition.getValue();
 
             // create new transition map for swap
             HashMap<Character, String> swappedTransitions = new HashMap<>();
@@ -207,7 +204,56 @@ public class DFA implements DFAInterface {
         }
 
         return swappedDFA;
+    }
 
-        
+    @Override
+    public String toString() {
+        // Build the Q set
+        String qText = " Q = { ";
+        for (DFAState state : states) {
+            String name = state.getName();
+            qText += name + " ";
+        }
+        qText += "}\n";
+
+        // Build the Sigma set and delta transition table first row
+        String sigmaText = "Sigma = { ";
+        String deltaText = "delta =\n\t\t";
+        for (char c : sigma) {
+            sigmaText += c + " ";
+            deltaText += c + "\t";
+        }
+        sigmaText += "}\n";
+        deltaText += "\n";
+
+        // Build the rest of the transition table
+        // Loop through all states (This set is ordered)
+        for (DFAState state : states) {
+            String key = state.getName();
+            deltaText += "\t" + key;
+
+            // Loop through all transitions (This set is also ordered)
+            for (char transition : sigma) {
+                String stateName = transitionTable.get(key).get(transition);
+                deltaText += "\t" + stateName;
+            }
+
+            deltaText += "\n";
+        }
+
+        // Build q0
+        String q0Text = "q0 = " + start.getName() + "\n";
+
+        // Build the F set
+        String fText = "F = { ";
+        for (DFAState state : states) {
+            String name = state.getName();
+            if (state.isFinal())
+                fText += name + " ";
+        }
+        fText += "}";
+
+        // Return all values concatenated
+        return qText + sigmaText + deltaText + q0Text + fText;
     }
 }
