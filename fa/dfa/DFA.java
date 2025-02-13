@@ -6,15 +6,24 @@ import java.util.*;
 
 public class DFA implements DFAInterface {
     // the states store isFinal, so contains F
-    private Set<DFAState> states = new HashSet<>();
+    private Set<DFAState> states;
     // sigma includes the total alphabet
-    private Set<Character> sigma = new HashSet<>();
+    private Set<Character> sigma;
     // transitionTable maps from a state name to the list of state names that occur depending on the transition
-    private Map<String, HashMap<Character, String>> transitionTable = new HashMap<>();
+    private Map<String, HashMap<Character, String>> transitionTable;
 
     // Store current state and start state
     private DFAState start;
     private DFAState current;
+
+    public DFA() {
+        states = new HashSet<>();
+        sigma = new HashSet<>();
+        transitionTable = new HashMap<>();
+
+        start = null;
+        current = null;
+    }
 
     // NICK
     @Override
