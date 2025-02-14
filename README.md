@@ -7,13 +7,13 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. Please don't just cut and
-paste, but paraphrase what is stated in the project specification.
+This program is a Deterministic Finite Automata (DFA). The DFA
+contains a set of states that can transition between each other over
+an alphabet. The purpose is to determine if a string is accepted by
+the language that the DFA defines.
 
 ## Reflection
-
+### Flynn
 As a whole, the project went very smoothly. I think the thing that caused 
 the most trouble was figuring out what structure to use in order to contain 
 the transition table for each DFA. The first thing we tried was using Hashmap
@@ -23,13 +23,22 @@ cause problems if states were created using names with the delimeter we were
 using, we ended up settling on a nested Hashmap instead. Besides that, we didn't 
 run into any problems that weren't quickly resolved.
 
-Write a brief (2-3 paragraph) reflection describing your experience with this 
-project. Answer the following questions (but feel free to add other insights): 
-- What worked well and what was a struggle?
-- What concepts still aren't quite clear?
-- What techniques did you use to make your code easy to debug and modify?
-- What would you change about your design process?
-- If you could go back in time, what would you tell yourself about doing this project?
+### Nick
+This project went very well. The biggest struggle I had was figuring out 
+a way to use maps and sets in a way that would order the items correctly
+when iterating. We eventually used linked maps and sets, which is primarily
+useful for the toString function, ensuring everything is outputted in order.
+A technique I used was to write each function and test it individually with
+small unit tests and such. Doing it this way, each function only took a few
+minutes to complete and have passing tests. The design process went very
+smooth, since both Flynn and I understood what the project was and how it 
+should work. We had some meetings to split up the work and met occasionally
+to see what the other was working on. If I could go back in time, I would
+tell myself to think a little more about what data types I wanted to use.
+Using sets and maps worked, but another solution would be to have the 
+individual states handle the transitions or use arraylists instead. Overall,
+this was a very interesting project that helped me better understand the
+workings of how OOP can develop this type of machine.
 
 ## Compiling and Using
 
@@ -40,12 +49,5 @@ about it to use it as quickly as possible?
 
 ## Sources used
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. So be safe CITE!
-
-----------
-This README template is using Markdown. To preview your README output,
-you can copy your file contents to a Markdown editor/previewer such
-as [https://stackedit.io/editor](https://stackedit.io/editor).
+https://docs.oracle.com/javase/8/docs/api/java/util/Set.html
+https://docs.oracle.com/javase/8/docs/api/java/util/Map.html
