@@ -15,6 +15,10 @@ public class DFA implements DFAInterface {
     // Store start state
     private DFAState start;
 
+
+    /**
+     * Constructor for a new DFA.
+     */
     public DFA() {
         states = new LinkedHashSet<>();
         sigma = new LinkedHashSet<>();
@@ -23,7 +27,11 @@ public class DFA implements DFAInterface {
         start = null;
     }
 
-    // NICK
+    /** 
+     * Adds a new state to the DFA.
+     * @param name The name of the state to add.
+     * @return true if the state was added successfully, false if it already exists.
+     */
     @Override
     public boolean addState(String name) {
         // Cannot have the name of an existing state
@@ -36,6 +44,11 @@ public class DFA implements DFAInterface {
         return true;
     }
 
+    /**
+     * Marks a state as a final (accepting) state.
+     * @param name The name of the state to set as final.
+     * @return true if the state was successfully set as final, false if the state does not exist.
+     */
     @Override
     public boolean setFinal(String name) {
         DFAState state = getState(name);
@@ -48,6 +61,11 @@ public class DFA implements DFAInterface {
         return true;
     }
 
+    /**
+     * Sets the start state of the DFA.
+     * @param name The name of the state to set as the start state.
+     * @return true if successfully set, false if the state does not exist.
+     */
     @Override
     public boolean setStart(String name) {
         DFAState state = getState(name);
@@ -65,12 +83,21 @@ public class DFA implements DFAInterface {
         return true;
     }
 
+    /**
+     * Adds a character to the DFA's alphabet.
+     * @param symbol The character to add to the alphabet.
+     */
     @Override
     public void addSigma(char symbol) {
         // Add the symbol to sigma
         sigma.add(symbol);
     }
 
+    /**
+     * Determines whether the DFA accepts a given input string.
+     * @param s The input string.
+     * @return true if the DFA accepts the string, false otherwise.
+     */
     @Override
     public boolean accepts(String s) {
         // This tests if the string is accepted by the machine
@@ -103,12 +130,20 @@ public class DFA implements DFAInterface {
         return getState(currentState).isFinal();
     }
 
+    /**
+     * Retrieves the DFA's alphabet
+     * @return A set containing all characters in the DFA's alphabet.
+     */
     @Override
     public Set<Character> getSigma() {
         return sigma;
     }
 
-    // FLYNN
+    /**
+     * Retrieves a state by its name.
+     * @param name The name of the state to retrieve.
+     * @return The DFAState object corresponding to the given name, or null if not found.
+     */
     @Override
     public DFAState getState(String name) {
         for (DFAState state : states) {
@@ -119,6 +154,11 @@ public class DFA implements DFAInterface {
         return null;
     }
 
+    /**
+     * Checks if a state is a final (accepting) state.
+     * @param name The name of the state to check.
+     * @return true if the state is final, false otherwise.
+     */
     @Override
     public boolean isFinal(String name) {
         DFAState state = getState(name);
@@ -130,6 +170,11 @@ public class DFA implements DFAInterface {
         }
     }
 
+    /**
+     * Checks if a state is the start state.
+     * @param name The name of the state to check.
+     * @return true if the state is the start state, false otherwise.
+     */
     @Override
     public boolean isStart(String name) {
         DFAState state = getState(name);
@@ -141,7 +186,13 @@ public class DFA implements DFAInterface {
         }
     }
 
-    //Might need to add additional checks to see if a transition already exists
+    /**
+	 * Adds the transition to the DFA's delta data structure
+	 * @param fromState is the label of the state where the transition starts
+	 * @param toState is the label of the state where the transition ends
+	 * @param onSymb is the symbol from the DFA's alphabet.
+	 * @return true if successful and false if one of the states don't exist or the symbol in not in the alphabet
+	 */
     @Override
     public boolean addTransition(String fromState, String toState, char onSymb) {
         if (getState(fromState) == null || getState(toState) == null || !sigma.contains(onSymb)) {
@@ -156,6 +207,14 @@ public class DFA implements DFAInterface {
         return true;
     }
 
+    
+    /**
+	 * Creates a deep copy of this DFA
+	 * which transitions labels are
+	 * swapped between symbols symb1
+	 * and symb2.
+	 * @return a copy of this DFA
+	 */
     @Override
     public DFA swap(char symb1, char symb2) {
         DFA swappedDFA = new DFA();
@@ -206,6 +265,22 @@ public class DFA implements DFAInterface {
         return swappedDFA;
     }
 
+    /**
+	 * Construct the textual representation of the DFA, for example
+	 * A simple two state DFA
+	 * Q = { a b }
+	 * Sigma = { 0 1 }
+	 * delta =
+	 *		0	1	
+	 *	a	a	b	
+	 *	b	a	b	
+	 * q0 = a
+	 * F = { b }
+	 * 
+	 * The order of the states and the alphabet is the order
+	 * in which they were instantiated in the DFA.
+	 * @return String representation of the DFA
+	 */
     @Override
     public String toString() {
         // Build the Q set
