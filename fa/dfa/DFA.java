@@ -1,16 +1,22 @@
 package fa.dfa;
 
-import fa.State;
-
 import java.util.*;
 
+/**
+ * This class represents a deterministic finite automata (DFA).
+ * This class can test a string against the automata, returning
+ * whether the string is accepted by the machine or not.
+ *
+ * @author Nick Bortz & Flynn Hoare
+ * @since 2025-02-13
+ */
 public class DFA implements DFAInterface {
     // the states store isFinal, so contains F
-    private LinkedHashSet<DFAState> states;
+    private final LinkedHashSet<DFAState> states;
     // sigma includes the total alphabet
-    private LinkedHashSet<Character> sigma;
+    private final LinkedHashSet<Character> sigma;
     // transitionTable maps from a state name to the list of state names that occur depending on the transition
-    private Map<String, Map<Character, String>> transitionTable;
+    private final Map<String, Map<Character, String>> transitionTable;
 
     // Store start state
     private DFAState start;

@@ -1,7 +1,7 @@
 # CS361_P1
 # Project 1: Deterministic Finite Automata
 
-* Author: Flynn Hoare
+* Author: Flynn Hoare & Nick Bortz
 * Class: CS361 Section 2
 * Semester: Spring 2025
 
