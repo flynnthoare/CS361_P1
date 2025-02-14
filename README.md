@@ -42,12 +42,20 @@ workings of how OOP can develop this type of machine.
 
 ## Compiling and Using
 
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
+To compile, execute the following command in the main project directory:
+```
+javac -cp .:/usr/share/java/junit.jar ./test/dfa/DFATest.java
+```
+Run the compiled class with the command:
+```
+java -cp .:/usr/share/java/junit.jar:/usr/share/java/hamcrest/core.jar
+org.junit.runner.JUnitCore test.dfa.DFATest
+```
+
+The program requires no user input.
 
 ## Sources used
 
 https://docs.oracle.com/javase/8/docs/api/java/util/Set.html
+https://docs.oracle.com/javase/8/docs/api/java/util/Map.html
 https://docs.oracle.com/javase/8/docs/api/java/util/Map.html
