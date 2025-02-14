@@ -14,6 +14,15 @@ paste, but paraphrase what is stated in the project specification.
 
 ## Reflection
 
+As a whole, the project went very smoothly. I think the thing that caused 
+the most trouble was figuring out what structure to use in order to contain 
+the transition table for each DFA. The first thing we tried was using Hashmap
+of type <String, String> and using a comma as a delimiter in order to separate
+the start state and the symbol we were transitioning on. Thinking this could 
+cause problems if states were created using names with the delimeter we were 
+using, we ended up settling on a nested Hashmap instead. Besides that, we didn't 
+run into any problems that weren't quickly resolved.
+
 Write a brief (2-3 paragraph) reflection describing your experience with this 
 project. Answer the following questions (but feel free to add other insights): 
 - What worked well and what was a struggle?
