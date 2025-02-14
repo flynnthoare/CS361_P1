@@ -168,12 +168,7 @@ public class DFA implements DFAInterface {
     @Override
     public boolean isFinal(String name) {
         DFAState state = getState(name);
-        if (state.isFinal()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return state.isFinal();
     }
 
     /**
@@ -184,12 +179,7 @@ public class DFA implements DFAInterface {
     @Override
     public boolean isStart(String name) {
         DFAState state = getState(name);
-        if (state.isStart()) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return state.isStart();
     }
 
     /**
@@ -290,51 +280,51 @@ public class DFA implements DFAInterface {
     @Override
     public String toString() {
         // Build the Q set
-        String qText = " Q = { ";
+        StringBuilder qText = new StringBuilder(" Q = { ");
         for (DFAState state : states) {
             String name = state.getName();
-            qText += name + " ";
+            qText.append(name).append(" ");
         }
-        qText += "}\n";
+        qText.append("}\n");
 
         // Build the Sigma set and delta transition table first row
-        String sigmaText = "Sigma = { ";
-        String deltaText = "delta =\n\t\t";
+        StringBuilder sigmaText = new StringBuilder("Sigma = { ");
+        StringBuilder deltaText = new StringBuilder("delta =\n\t\t");
         for (char c : sigma) {
-            sigmaText += c + " ";
-            deltaText += c + "\t";
+            sigmaText.append(c).append(" ");
+            deltaText.append(c).append("\t");
         }
-        sigmaText += "}\n";
-        deltaText += "\n";
+        sigmaText.append("}\n");
+        deltaText.append("\n");
 
         // Build the rest of the transition table
         // Loop through all states (This set is ordered)
         for (DFAState state : states) {
             String key = state.getName();
-            deltaText += "\t" + key;
+            deltaText.append("\t").append(key);
 
             // Loop through all transitions (This set is also ordered)
             for (char transition : sigma) {
                 String stateName = transitionTable.get(key).get(transition);
-                deltaText += "\t" + stateName;
+                deltaText.append("\t").append(stateName);
             }
 
-            deltaText += "\n";
+            deltaText.append("\n");
         }
 
         // Build q0
         String q0Text = "q0 = " + start.getName() + "\n";
 
         // Build the F set
-        String fText = "F = { ";
+        StringBuilder fText = new StringBuilder("F = { ");
         for (DFAState state : states) {
             String name = state.getName();
             if (state.isFinal())
-                fText += name + " ";
+                fText.append(name).append(" ");
         }
-        fText += "}";
+        fText.append("}");
 
         // Return all values concatenated
-        return qText + sigmaText + deltaText + q0Text + fText;
+        return qText + sigmaText.toString() + deltaText + q0Text + fText;
     }
 }
